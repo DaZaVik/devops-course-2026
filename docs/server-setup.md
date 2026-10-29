@@ -109,7 +109,9 @@ UFW проверяется также фактическими запросам�
 Контрольные точки: 01-clean-install (ОС и student), 02-keys-configured (devops и ключ),
 03-ssh-hardened (защита SSH), 04-nginx-https (HTTPS), 05-docker-compose (Compose),
 06-before-kr2 (до контрольной), 07-kr2 (результат контрольной).
-Фактический список созданных снимков проверяется в менеджере VirtualBox; перечень здесь задаёт этапы.
+Снимки 01–04 созданы и проверены 29.10.2026. Восстановление из 01-clean-install
+с повторной настройкой учётной записи, SSH, UFW и аудитом 9/9 заняло 125,2 с.
+После восстановления ветка снимков 04 и далее начинается от 01; снимки 02–03 сохранены отдельно.
 
 Для восстановления с 01-clean-install:
 
@@ -153,7 +155,11 @@ HTTP возвращает 301 на HTTPS. HSTS для учебного само�
 ## 9. Контейнеризация
 
 Установка Docker Engine из официального APT-репозитория, не docker.io: `sudo scripts/install-docker.sh`.
-Версия фиксируется командой `docker version` в отчёте. После включения devops в docker требуется новое соединение.
+Проверенные версии: Engine 29.9.2, Compose v5.6.1. После включения devops в docker требуется новое соединение.
+Для hello-world Docker Hub выдал сетевую ошибку CDN; успешный запуск выполнен через
+официально описанный публичный кэш `mirror.gcr.io/library/hello-world:latest`.
+Источник: https://docs.cloud.google.com/artifact-registry/docs/pull-cached-dockerhub-images .
+Образы python:3.12-slim и postgres:16-alpine загружены непосредственно из Docker Hub.
 Проект на VM: `/home/devops/app`; пароль PostgreSQL хранится только в `.env` с правами 600.
 Доставка `rsync -avz --delete --exclude=.env app/ devops:app/`, сначала с --dry-run.
 Сервисы app и db, сеть backend, том db_data; app опубликован только на 127.0.0.1:5000, db не опубликован.
