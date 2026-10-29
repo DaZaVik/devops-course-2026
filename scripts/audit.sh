@@ -3,7 +3,7 @@
 set -uo pipefail
 export LC_ALL=C
 PASS=0; FAIL=0
-AUDIT_STAGE="${AUDIT_STAGE:-5}"
+AUDIT_STAGE="${AUDIT_STAGE:-8}"
 [[ "$AUDIT_STAGE" =~ ^[5-8]$ ]] || { echo 'AUDIT_STAGE must be 5, 6, 7 or 8' >&2; exit 1; }
 check() {
     local desc="$1" expected="$2" actual="$3"
