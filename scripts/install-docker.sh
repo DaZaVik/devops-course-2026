@@ -23,4 +23,9 @@ usermod -aG docker devops
 systemctl enable --now docker
 docker version
 docker compose version
-docker run --rm hello-world
+if ! docker run --rm hello-world; then
+    # Public Google cache of Docker Hub, useful when Hub's blob CDN is unavailable.
+    docker pull mirror.gcr.io/library/hello-world:latest
+    docker tag mirror.gcr.io/library/hello-world:latest hello-world:latest
+    docker run --rm hello-world
+fi
